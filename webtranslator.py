@@ -3,7 +3,6 @@
 
 # enable debugging
 import Translator
-import Transliterate
 import cgitb
 import cgi
 
@@ -20,8 +19,9 @@ text = form.getvalue('text')
 
 if text!= None:
   
-    x = Transliterate.Transliteration(Transliterate.ARABIC)
-    arabicText = x.getTransliteration(text).encode("UTF-8");
+    #x = Transliterate.Transliteration(Transliterate.ARABIC)
+    #arabicText = x.getTransliteration(text).encode("UTF-8");
+    arabicText = text
     print "English: "+  Translator.translate(arabicText) + "<br/>";
     print "Arabic: "+ arabicText 
     

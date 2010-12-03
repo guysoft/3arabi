@@ -1,13 +1,14 @@
 <html>
 <head>
-<link rel="shortcut icon" href="http://gnet.homelinux.com/3arabi/favicon.ico" type="image/x-icon" />
+<link rel="shortcut icon" href="http://3arabi.site.co.il/favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript" src="//www.google.com/jsapi"></script>
 
 <script type="text/javascript">
-function loadTranslation(text)
-{
- 
- document.getElementById("output").innerHTML="<img src='bigrotation2.gif' alt='loading' />";//start loading animation
+google.load("language", "1");
 
+
+function translateFinal(text){
 if (window.XMLHttpRequest)
   {// code for IE7+, Firefox, Chrome, Opera, Safari
   xmlhttp=new XMLHttpRequest();
@@ -23,9 +24,60 @@ xmlhttp.onreadystatechange=function()
     document.getElementById("output").innerHTML=xmlhttp.responseText;
     }
   }
-xmlhttp.open("GET","http://gnet.homelinux.com/cgi-bin/3arabi/webtranslator.py?text=" + text,true);
+xmlhttp.open("GET","http://3arabi.site.co.il/cgi-bin/webtranslator.py?text=" + text,true);
 xmlhttp.send();
 }
+
+/* recursive fuction for google's single-word asyncronic annoying function */
+function Translite(text){
+      var container = document.getElementById("transoutput");
+      firstSpace = text.indexOf(' ');
+      
+      if (firstSpace > 0){
+            word = text.substr(0,firstSpace);
+            rest = text.substr(firstSpace +1);
+      }
+      else{ //last word
+            word = text;
+            rest = -1;
+                  
+      }
+      
+      ///container.value = rest;
+      google.language.transliterate([word], "en", "ar", function(result) {
+        if (!result.error) {
+          var container = document.getElementById("transoutput");
+          if (result.transliterations && result.transliterations.length > 0 &&
+            result.transliterations[0].transliteratedWords.length > 0) {
+            
+            container.value = container.value + result.transliterations[0].transliteratedWords[0];
+            
+            //alert(result.transliterations[0].transliteratedWords[0]);
+            
+            if (rest != -1){
+                        container.value += " ";
+                        Translite(rest);
+            }
+            else{//done Translite solution is in the textboxt
+            translateFinal(container.value);
+            }
+            
+          }
+        }
+      });
+      //return "Failed to connect to Google Translitrate";
+}
+
+
+function loadTranslation(text)
+{
+document.getElementById("output").innerHTML="<img src='bigrotation2.gif' alt='loading' />";//start loading animation
+var container = document.getElementById("transoutput");
+container.value="";
+Translite(text);
+}
+
+
 
 /* handle hashtag trasnlations */
 function loadAnchor(){
@@ -41,6 +93,16 @@ document.form.translateinput.value = text;
 
 <style type='text/css'>
 textarea {overflow-x: auto; overflow-y: auto}
+
+footer {
+    display:block;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 87px;
+    background: repeat-x left bottom;
+}
+
 </style>
 
 </head>
@@ -53,7 +115,13 @@ textarea {overflow-x: auto; overflow-y: auto}
 <button type="button" onclick="TranslateBox()" value="3arabi">Translate</button>
 </form>
 <div id="output"></div>
-<center>
+<form NAME = outputdata>
+<input type="hidden" id="transoutput" value="off"/>
+</form>
+</center>
+<footer>
+<a href="http://guysoft.wordpress.com">Written by GuySoft</a> <a href="https://github.com/guysoft/3arabi">GitHub</a> <img src="python-powered.png" alt="Python Powered"/> 
+</footer>
 </body>
 </html>
 

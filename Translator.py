@@ -2,7 +2,7 @@
 from urllib2 import urlopen
 from urllib import urlencode
 import sys
-import Transliterate
+#import Transliterate
 
 GOOGLE_MAX_CHAR = 680;
 
@@ -54,10 +54,10 @@ def translate(text):
   return translation
   
 def arabiTranslate(text):
-    x = Transliterate.Transliteration(Transliterate.ARABIC)
-    arabicText = x.getTransliteration(text).encode("UTF-8");
+    #x = Transliterate.Transliteration(Transliterate.ARABIC)
+    #arabicText = x.getTransliteration(text).encode("UTF-8");
     #print arabicText
-    return translate(arabicText)
+    return translate(text)
     
 if __name__ == "__main__":
   print arabiTranslate("3arabi")
