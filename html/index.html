@@ -1,0 +1,67 @@
+<html>
+<head>
+<link rel="shortcut icon" href="http://gnet.homelinux.com/3arabi/favicon.ico" type="image/x-icon" />
+
+<script type="text/javascript">
+function loadTranslation(text)
+{
+ 
+ document.getElementById("output").innerHTML="<img src='bigrotation2.gif' alt='loading' />";//start loading animation
+
+if (window.XMLHttpRequest)
+  {// code for IE7+, Firefox, Chrome, Opera, Safari
+  xmlhttp=new XMLHttpRequest();
+  }
+else
+  {// code for IE6, IE5
+  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+xmlhttp.onreadystatechange=function()
+  {
+  if (xmlhttp.readyState==4 && xmlhttp.status==200)
+    {
+    document.getElementById("output").innerHTML=xmlhttp.responseText;
+    }
+  }
+xmlhttp.open("GET","http://gnet.homelinux.com/cgi-bin/3arabi/webtranslator.py?text=" + text,true);
+xmlhttp.send();
+}
+
+/* handle hashtag trasnlations */
+function loadAnchor(){
+hash = location.hash;
+if (location.hash.length >1){
+ text = hash.substr(1);
+document.form.translateinput.value = text;
+  loadTranslation(text);
+  }
+}
+
+</script>
+
+<style type='text/css'>
+textarea {overflow-x: auto; overflow-y: auto}
+</style>
+
+</head>
+<body onload="loadAnchor();">
+<center>
+<img src="3arabi.png" alt="3arabi"/>
+<h2>Arabic Chat to English traslator</h2>
+<form NAME = form>
+<textarea NAME="translateinput" rows="3" cols="80"></textarea>
+<button type="button" onclick="TranslateBox()" value="3arabi">Translate</button>
+</form>
+<div id="output"></div>
+<center>
+</body>
+</html>
+
+<script type="text/javascript">
+function TranslateBox(){
+window.location.hash=document.form.translateinput.value;
+loadTranslation(document.form.translateinput.value)
+
+}
+</script>
+
